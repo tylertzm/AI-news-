@@ -5,12 +5,11 @@ import random
 
 
 def show_homepage():
-    st.title("Welcome to Tyler's Articles")
-    st.write("Select an article from the list to read more.")
+    st.write("##i'm still working on cleaning the articles##")
 
 def show_article_list(articles):
-    st.title("Tyler's Articles")
-    st.subheader("this site is for personal use only")
+    st.title("Tyler's Stolen Articles")
+    st.subheader("this site is for personal use to get an overview of the latest AI news")
     for index, article in enumerate(articles):
         if st.button(article['title'], key=f"article_{index}"):
             st.session_state['current_article_index'] = index
@@ -119,6 +118,7 @@ def show_history(articles):
                     break
 
 def main():
+    show_homepage()
     articles = fetch_articles()
     show_history(articles)
     if 'view_article' in st.session_state and st.session_state['view_article']:
