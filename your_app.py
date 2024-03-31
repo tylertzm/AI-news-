@@ -1,13 +1,26 @@
 import streamlit as st
+from streamlit import markdown
 import requests
 from bs4 import BeautifulSoup
 import random
 
+def css_style():
+    st.markdown(
+        """
+        <style>
+        p {font-family: Times New Roman; font-size: 20px;}
+        h3 {font-family: Arial; font-size: 40px;}
+        .stButton>button {font-size: 20px;}
+        </style>
+        """, unsafe_allow_html=True
+    )
 
 def show_homepage():
+    css_style()
     st.write("##i'm still working on cleaning the articles##")
 
 def show_article_list(articles):
+    css_style()
     st.title("Tyler's Stolen Articles")
     st.subheader("this site is for personal use to get an overview of the latest AI news")
     for index, article in enumerate(articles):
@@ -33,8 +46,6 @@ def fetch_articles():
         'https://www.technologyreview.com/topic/artificial-intelligence/',
         'https://news.mit.edu/topic/artificial-intelligence2'
     ]
-    # Your scraping logic here
-    # This is a placeholder for demonstration purposes
     for url in urls:
         response = requests.get(url)
         soup = BeautifulSoup(response.text, 'html.parser')
@@ -60,35 +71,27 @@ def fetch_articles():
 
     return articles_list
 
-
-
-
 def show_article_content(articles):
-    # List of image URLs
+    css_style()
     image_urls = [
         "https://img.freepik.com/premium-vector/mountain-line-art-mid-century-modern-minimalist-art-print-abstract-contemporary-aesthetic-backgrounds-landscapes-vector-illustration_69626-538.jpg?w=2000",
         "https://img.freepik.com/premium-vector/mountain-ocean-wave-line-art-print-abstract-mountain-contemporary-aesthetic-backgrounds-landscapes-vector-illustrations_69626-739.jpg",
         "https://img.freepik.com/premium-vector/ocean-wave-landscape-creative-minimalist-modern-art-print-abstract-contemporary-aesthetic-backgrounds-landscapes-with-ocean-wave-sea-hill-skyline-vector-illustrations_69626-759.jpg",
         "https://img.freepik.com/premium-vector/creative-minimalist-modern-line-art-print-abstract-mountain-contemporary-aesthetic-backgrounds-landscapes-with-mountain-moon-sea-skyline-wave-vector-illustrations_69626-741.jpg"
     ]
-    
-    # Select a random image URL from the list
     random_image_url = random.choice(image_urls)
     
     current_index = st.session_state['current_article_index']
     article = articles[current_index]
     
-    # Display the random image
     st.write("yo guys reload to access the list again.")
 
     st.image(random_image_url, caption="chosen aesthetic by tyler!", use_column_width=True)
     
-    # Display the article content (assuming this functionality is already implemented)
     article_title, article_content_html = fetch_article_content(article['url'])
     st.markdown(f"## {article_title}", unsafe_allow_html=True)
     st.markdown(article_content_html, unsafe_allow_html=True)
 
-    # Display the "Back" and "Next" buttons at the top
     col1, col2, col3 = st.columns([1,6,1])
     with col1:
         if st.button("Back"):
@@ -104,13 +107,11 @@ def show_article_content(articles):
                     st.session_state['viewed_articles'].append(next_article_title)
                 st.session_state['current_article_index'] = next_index
 
-
-
 def show_history(articles):
+    css_style()
     st.sidebar.title("Viewed Articles")
     for title in st.session_state.get('viewed_articles', []):
         if st.sidebar.button(title, key=f"history_{title}"):
-            # Find the article by title to get its index
             for i, article in enumerate(articles):
                 if article['title'] == title:
                     st.session_state['current_article_index'] = i
@@ -127,5 +128,3 @@ def main():
         show_article_list(articles)
 
 main()
-
-        
