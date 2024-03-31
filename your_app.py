@@ -8,7 +8,7 @@ def css_style():
     st.markdown(
         """
         <style>
-        p {font-family: Times New Roman; font-size: 20px;}
+        p {font-family: Times New Roman; font-size: 25px;}
         h3 {font-family: Arial; font-size: 40px;}
         .stButton>button {font-size: 20px;}
         </style>
